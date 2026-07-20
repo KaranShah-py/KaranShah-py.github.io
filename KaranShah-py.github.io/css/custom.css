@@ -1,0 +1,277 @@
+/* ==========================================================================
+   CUSTOM.CSS — dynamic feature styling
+   1. Dark / Light mode
+   2. Animated skill bars
+   3. Scroll-to-top button
+   4. Active nav link highlighting
+   5. Career / tech timeline (left-aligned)
+   ========================================================================== */
+
+/* ---------- 1. Dark / Light mode toggle button ---------- */
+.theme-toggle-btn {
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.6);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 12px;
+  font-size: 16px;
+  transition: background .25s ease, transform .25s ease, border-color .25s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.15);
+  transform: rotate(20deg);
+}
+
+.ftco_navbar.scrolled .theme-toggle-btn,
+.ftco_navbar.awake .theme-toggle-btn {
+  border-color: rgba(0,0,0,0.35);
+  color: #1a1a1a;
+}
+
+.ftco_navbar.scrolled .theme-toggle-btn:hover,
+.ftco_navbar.awake .theme-toggle-btn:hover {
+  background: rgba(0,0,0,0.08);
+}
+
+/* Robust CSS-variable based theme (replaces the old invert-filter hack,
+   which produced inconsistent font colours when switching back to light). */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #6f6f6f;
+  --text-heading: #000000;
+  --text-muted: #6c757d;
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --accent: #F96D00;
+}
+
+body.dark-mode {
+  --bg-primary: #121417;
+  --bg-secondary: #1a1d21;
+  --text-primary: #d5d8dc;
+  --text-heading: #ffffff;
+  --text-muted: #a7acb3;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --accent: #ff9142;
+}
+
+body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition: background-color .35s ease, color .35s ease;
+}
+
+/* headings + generic text
+   Note: h1.big is the giant faint "About"/"Resume" watermark text —
+   it must be excluded here so it keeps its original low-opacity styling
+   from style.css and stays behind the real content instead of on top of it. */
+h1:not(.big), h2:not(.big), h3, h4, h5, h6,
+.about-info span:first-child,
+.heading-section h2 {
+  color: var(--text-heading) !important;
+}
+
+p, li, span, label, .about-info span {
+  color: var(--text-primary);
+}
+
+.date, .position, .title-s, .timeline-role, .timeline-desc, .subheading {
+  color: var(--text-muted) !important;
+}
+
+/* section + card backgrounds (skip elements that carry their own photo backgrounds) */
+.ftco-section:not(.img),
+.ftco-about:not(.img) {
+  background-color: var(--bg-primary) !important;
+}
+
+.resume-wrap,
+.services-1,
+.contact-section .box,
+.blog-entry .text,
+.career-timeline-wrap .timeline-item {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--card-border);
+}
+
+.about-info,
+.skill-mf {
+  color: var(--text-primary);
+}
+
+a {
+  transition: color .25s ease;
+}
+
+body.dark-mode img,
+body.dark-mode .about-img img {
+  filter: brightness(.92);
+}
+
+body.dark-mode .btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- 2. Animated skill bars ---------- */
+.skill-mf .progress-bar {
+  width: 0% !important;
+  transition: width 1.4s cubic-bezier(.22,.61,.36,1);
+}
+
+.skill-mf .progress-bar.animated {
+  /* width set inline by JS to the target percentage */
+}
+
+/* ---------- 3. Scroll-to-top button ---------- */
+#scrollTopBtn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #F96D00;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s ease, background .2s ease;
+  z-index: 999;
+}
+
+#scrollTopBtn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+  background: #d75c00;
+}
+
+/* ---------- 4. Active nav link highlighting ---------- */
+#ftco-nav .nav-link.active-link {
+  position: relative;
+  color: #F96D00 !important;
+}
+
+#ftco-nav .nav-link.active-link:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: #F96D00;
+}
+
+/* ---------- 5. Career / Tech timeline ---------- */
+.career-timeline-wrap {
+  position: relative;
+  padding: 10px 0 10px 30px;
+  border-left: 3px solid rgba(249, 109, 0, 0.25);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 42px;
+  opacity: 0;
+  transform: translateX(-25px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.timeline-item.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item .timeline-dot {
+  position: absolute;
+  left: -38px;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #F96D00;
+  box-shadow: 0 0 0 4px rgba(249,109,0,0.12);
+}
+
+.timeline-item .timeline-date {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: #F96D00;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.timeline-item h3 {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: inherit;
+}
+
+.timeline-item .timeline-role {
+  display: block;
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.timeline-item .timeline-desc {
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.tech-badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tech-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: rgba(249,109,0,0.1);
+  color: #F96D00;
+  border: 1px solid rgba(249,109,0,0.25);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .career-timeline-wrap {
+    padding-left: 24px;
+  }
+  .timeline-item .timeline-dot {
+    left: -31px;
+  }
+}
+
