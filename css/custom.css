@@ -1,0 +1,493 @@
+/* ==========================================================================
+   CUSTOM.CSS — dynamic feature styling
+   1. Dark / Light mode
+   2. Animated skill bars
+   3. Scroll-to-top button
+   4. Active nav link highlighting
+   5. Career / tech timeline (left-aligned)
+   ========================================================================== */
+
+/* ---------- 1. Dark / Light mode toggle button ---------- */
+.theme-toggle-btn {
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.6);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 12px;
+  font-size: 16px;
+  transition: background .25s ease, transform .25s ease, border-color .25s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.15);
+  transform: rotate(20deg);
+}
+
+.ftco_navbar.scrolled .theme-toggle-btn,
+.ftco_navbar.awake .theme-toggle-btn {
+  border-color: rgba(0,0,0,0.35);
+  color: #1a1a1a;
+}
+
+.ftco_navbar.scrolled .theme-toggle-btn:hover,
+.ftco_navbar.awake .theme-toggle-btn:hover {
+  background: rgba(0,0,0,0.08);
+}
+
+/* Robust CSS-variable based theme (replaces the old invert-filter hack,
+   which produced inconsistent font colours when switching back to light). */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #6f6f6f;
+  --text-heading: #000000;
+  --text-muted: #6c757d;
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --accent: #F96D00;
+}
+
+body.dark-mode {
+  --bg-primary: #121417;
+  --bg-secondary: #1a1d21;
+  --text-primary: #d5d8dc;
+  --text-heading: #ffffff;
+  --text-muted: #a7acb3;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --accent: #ff9142;
+}
+
+body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition: background-color .35s ease, color .35s ease;
+}
+
+/* headings + generic text
+   Note: h1.big is the giant faint "About"/"Resume" watermark text —
+   it must be excluded here so it keeps its original low-opacity styling
+   from style.css and stays behind the real content instead of on top of it. */
+h1:not(.big), h2:not(.big), h3, h4, h5, h6,
+.about-info span:first-child,
+.heading-section h2 {
+  color: var(--text-heading) !important;
+}
+
+p, li, span, label, .about-info span {
+  color: var(--text-primary);
+}
+
+.date, .position, .title-s, .timeline-role, .timeline-desc, .subheading {
+  color: var(--text-muted) !important;
+}
+
+/* Links default to #000000 in the original stylesheet (style.css), which
+   is why they stayed black in dark mode. Fix the base rule plus every
+   more-specific link rule that also hardcodes black. */
+a {
+  color: var(--text-heading);
+}
+
+a:hover, a:focus {
+  color: var(--accent);
+}
+
+.blog-entry .text .heading a,
+.contact-section .contact-info p a,
+.contact-section .box h3 a {
+  color: var(--text-heading) !important;
+}
+
+.blog-entry .text .heading a:hover,
+.contact-section .contact-info p a:hover,
+.contact-section .box h3 a:hover {
+  color: var(--accent) !important;
+}
+
+.blog-entry .text p,
+.contact-section .box {
+  color: var(--text-primary);
+}
+
+/* section + card backgrounds (skip elements that carry their own photo backgrounds) */
+.ftco-section:not(.img),
+.ftco-about:not(.img) {
+  background-color: var(--bg-primary) !important;
+}
+
+.resume-wrap,
+.services-1,
+.contact-section .box,
+.blog-entry .text,
+.career-timeline-wrap .timeline-item {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--card-border);
+}
+
+.about-info,
+.skill-mf {
+  color: var(--text-primary);
+}
+
+a {
+  transition: color .25s ease;
+}
+
+body.dark-mode img,
+body.dark-mode .about-img img {
+  filter: brightness(.92);
+}
+
+body.dark-mode .btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- 2. Animated skill bars ---------- */
+.skill-mf .progress-bar {
+  width: 0% !important;
+  transition: width 1.4s cubic-bezier(.22,.61,.36,1);
+}
+
+.skill-mf .progress-bar.animated {
+  /* width set inline by JS to the target percentage */
+}
+
+/* ---------- 3. Scroll-to-top button ---------- */
+#scrollTopBtn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #F96D00;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s ease, background .2s ease;
+  z-index: 999;
+}
+
+#scrollTopBtn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+  background: #d75c00;
+}
+
+/* ---------- 4. Active nav link highlighting ---------- */
+#ftco-nav .nav-link.active-link {
+  position: relative;
+  color: #F96D00 !important;
+}
+
+#ftco-nav .nav-link.active-link:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: #F96D00;
+}
+
+/* ---------- 5. Career / Tech timeline ---------- */
+.career-timeline-wrap {
+  position: relative;
+  padding: 10px 0 10px 30px;
+  border-left: 3px solid rgba(249, 109, 0, 0.25);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 42px;
+  opacity: 0;
+  transform: translateX(-25px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.timeline-item.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item .timeline-dot {
+  position: absolute;
+  left: -38px;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #F96D00;
+  box-shadow: 0 0 0 4px rgba(249,109,0,0.12);
+}
+
+.timeline-item .timeline-date {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: #F96D00;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.timeline-item h3 {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: inherit;
+}
+
+.timeline-item .timeline-role {
+  display: block;
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.timeline-item .timeline-desc {
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.tech-badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tech-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: rgba(249,109,0,0.1);
+  color: #F96D00;
+  border: 1px solid rgba(249,109,0,0.25);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .career-timeline-wrap {
+    padding-left: 24px;
+  }
+  .timeline-item .timeline-dot {
+    left: -31px;
+  }
+}
+
+/* ---------- 6. Responsive image / layout fixes ----------
+   The hero photo (and a couple of other background-image blocks) had no
+   minimum height, so at certain in-between window widths their container
+   could collapse to almost nothing and only show a cropped sliver of the
+   photo. These rules guarantee a sane, fully-visible image at every
+   screen size and stop any element from overflowing horizontally. */
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Safety net: any plain <img> that forgot .img-fluid still scales down
+   instead of overflowing or forcing a horizontal scrollbar. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hero photo — always cover its box, always centered, never collapse.
+   Note: main.js sets this element's height to the raw window height via
+   .js-fullheight on every resize, but its parent (.slider-item) stays a
+   fixed height — the mismatch is what caused the photo to clip/overflow
+   at certain window sizes. Forcing height:100% here makes it always
+   match its parent instead of the browser window. */
+.owl-carousel.home-slider .slider-item .slider-text .one-third.img {
+  background-size: cover !important;
+  background-position: center center !important;
+  height: 100% !important;
+  min-height: 420px;
+}
+
+@media (max-width: 991.98px) {
+  .owl-carousel.home-slider .slider-item .slider-text .one-third.img {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .owl-carousel.home-slider {
+    height: auto !important;
+  }
+  .owl-carousel.home-slider .slider-item,
+  .owl-carousel.home-slider .slider-item .slider-text {
+    height: auto !important;
+    min-height: 620px;
+  }
+  .owl-carousel.home-slider .slider-item .slider-text .one-third.img {
+    min-height: 280px;
+  }
+}
+
+/* About Me profile photo + certificate image: keep proportions, never
+   let them get cropped/squashed at odd widths */
+.ftco-about .img-about .img,
+.about-img img,
+.resume-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Other background-image cards (project thumbnails, footer banner) get
+   the same guaranteed min-height treatment */
+.blog-entry .block-20.zoom-effect,
+.ftco-hireme.img {
+  background-size: cover !important;
+  background-position: center center !important;
+  min-height: 220px;
+}
+
+/* Prevent the skill bars / timeline / grid columns from overlapping
+   text at narrow widths */
+.skill-mf span,
+.timeline-item h3,
+.timeline-role,
+.about-info span {
+  word-break: break-word;
+}
+
+@media (max-width: 575.98px) {
+  .about-info li span:first-child {
+    width: 100% !important;
+    display: block;
+  }
+  .about-info li {
+    flex-direction: column;
+  }
+}
+
+/* ---------- 7. UI polish ---------- */
+
+/* Cards get a soft shadow + gentle lift on hover instead of sitting flat */
+.resume-wrap,
+.blog-entry,
+.contact-section .box,
+.timeline-item {
+  border-radius: 10px;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .35s ease, border-color .35s ease;
+}
+
+.resume-wrap:hover,
+.contact-section .box:hover,
+.career-timeline-wrap .timeline-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .resume-wrap:hover,
+body.dark-mode .contact-section .box:hover,
+body.dark-mode .career-timeline-wrap .timeline-item:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* Project thumbnails: subtle zoom on hover instead of a hard jump cut */
+.blog-entry {
+  overflow: hidden;
+}
+
+.blog-entry .block-20.zoom-effect {
+  transition: transform .5s ease;
+}
+
+.blog-entry:hover .block-20.zoom-effect {
+  transform: scale(1.06);
+}
+
+/* Buttons feel more tactile */
+.btn-primary {
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(249, 109, 0, 0.3);
+}
+
+/* Timeline connecting line gets a soft gradient fade instead of a flat rule */
+.career-timeline-wrap {
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, var(--accent) 0%, rgba(249, 109, 0, 0.08) 100%) 1;
+}
+
+.timeline-item .timeline-dot {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(249, 109, 0, 0.18);
+}
+
+/* Skill bars get a subtle gradient instead of a flat block of colour */
+.skill-mf .progress-bar {
+  background: linear-gradient(90deg, var(--accent), #ffbd39);
+  border-radius: 4px;
+}
+
+.skill-mf .progress {
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+/* Tech badges lift slightly on hover for a bit of interactivity */
+.tech-badge {
+  transition: transform .2s ease, background-color .2s ease;
+}
+
+.tech-badge:hover {
+  transform: translateY(-2px);
+  background: rgba(249, 109, 0, 0.18);
+}
+
+/* Consistent section rhythm so content never feels cramped against the
+   next section, at any screen size */
+.ftco-section {
+  padding-top: 5.5em;
+  padding-bottom: 5.5em;
+}
+
+@media (max-width: 767.98px) {
+  .ftco-section {
+    padding-top: 4em;
+    padding-bottom: 4em;
+  }
+}
+
