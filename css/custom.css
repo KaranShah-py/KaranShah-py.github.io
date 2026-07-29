@@ -88,6 +88,34 @@ p, li, span, label, .about-info span {
   color: var(--text-muted) !important;
 }
 
+/* Links default to #000000 in the original stylesheet (style.css), which
+   is why they stayed black in dark mode. Fix the base rule plus every
+   more-specific link rule that also hardcodes black. */
+a {
+  color: var(--text-heading);
+}
+
+a:hover, a:focus {
+  color: var(--accent);
+}
+
+.blog-entry .text .heading a,
+.contact-section .contact-info p a,
+.contact-section .box h3 a {
+  color: var(--text-heading) !important;
+}
+
+.blog-entry .text .heading a:hover,
+.contact-section .contact-info p a:hover,
+.contact-section .box h3 a:hover {
+  color: var(--accent) !important;
+}
+
+.blog-entry .text p,
+.contact-section .box {
+  color: var(--text-primary);
+}
+
 /* section + card backgrounds (skip elements that carry their own photo backgrounds) */
 .ftco-section:not(.img),
 .ftco-about:not(.img) {
@@ -272,6 +300,194 @@ body.dark-mode .btn-primary {
   }
   .timeline-item .timeline-dot {
     left: -31px;
+  }
+}
+
+/* ---------- 6. Responsive image / layout fixes ----------
+   The hero photo (and a couple of other background-image blocks) had no
+   minimum height, so at certain in-between window widths their container
+   could collapse to almost nothing and only show a cropped sliver of the
+   photo. These rules guarantee a sane, fully-visible image at every
+   screen size and stop any element from overflowing horizontally. */
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Safety net: any plain <img> that forgot .img-fluid still scales down
+   instead of overflowing or forcing a horizontal scrollbar. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Hero photo — always cover its box, always centered, never collapse.
+   Note: main.js sets this element's height to the raw window height via
+   .js-fullheight on every resize, but its parent (.slider-item) stays a
+   fixed height — the mismatch is what caused the photo to clip/overflow
+   at certain window sizes. Forcing height:100% here makes it always
+   match its parent instead of the browser window. */
+.owl-carousel.home-slider .slider-item .slider-text .one-third.img {
+  background-size: cover !important;
+  background-position: center center !important;
+  height: 100% !important;
+  min-height: 420px;
+}
+
+@media (max-width: 991.98px) {
+  .owl-carousel.home-slider .slider-item .slider-text .one-third.img {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .owl-carousel.home-slider {
+    height: auto !important;
+  }
+  .owl-carousel.home-slider .slider-item,
+  .owl-carousel.home-slider .slider-item .slider-text {
+    height: auto !important;
+    min-height: 620px;
+  }
+  .owl-carousel.home-slider .slider-item .slider-text .one-third.img {
+    min-height: 280px;
+  }
+}
+
+/* About Me profile photo + certificate image: keep proportions, never
+   let them get cropped/squashed at odd widths */
+.ftco-about .img-about .img,
+.about-img img,
+.resume-wrap img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Other background-image cards (project thumbnails, footer banner) get
+   the same guaranteed min-height treatment */
+.blog-entry .block-20.zoom-effect,
+.ftco-hireme.img {
+  background-size: cover !important;
+  background-position: center center !important;
+  min-height: 220px;
+}
+
+/* Prevent the skill bars / timeline / grid columns from overlapping
+   text at narrow widths */
+.skill-mf span,
+.timeline-item h3,
+.timeline-role,
+.about-info span {
+  word-break: break-word;
+}
+
+@media (max-width: 575.98px) {
+  .about-info li span:first-child {
+    width: 100% !important;
+    display: block;
+  }
+  .about-info li {
+    flex-direction: column;
+  }
+}
+
+/* ---------- 7. UI polish ---------- */
+
+/* Cards get a soft shadow + gentle lift on hover instead of sitting flat */
+.resume-wrap,
+.blog-entry,
+.contact-section .box,
+.timeline-item {
+  border-radius: 10px;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .35s ease, border-color .35s ease;
+}
+
+.resume-wrap:hover,
+.contact-section .box:hover,
+.career-timeline-wrap .timeline-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .resume-wrap:hover,
+body.dark-mode .contact-section .box:hover,
+body.dark-mode .career-timeline-wrap .timeline-item:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* Project thumbnails: subtle zoom on hover instead of a hard jump cut */
+.blog-entry {
+  overflow: hidden;
+}
+
+.blog-entry .block-20.zoom-effect {
+  transition: transform .5s ease;
+}
+
+.blog-entry:hover .block-20.zoom-effect {
+  transform: scale(1.06);
+}
+
+/* Buttons feel more tactile */
+.btn-primary {
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(249, 109, 0, 0.3);
+}
+
+/* Timeline connecting line gets a soft gradient fade instead of a flat rule */
+.career-timeline-wrap {
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, var(--accent) 0%, rgba(249, 109, 0, 0.08) 100%) 1;
+}
+
+.timeline-item .timeline-dot {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(249, 109, 0, 0.18);
+}
+
+/* Skill bars get a subtle gradient instead of a flat block of colour */
+.skill-mf .progress-bar {
+  background: linear-gradient(90deg, var(--accent), #ffbd39);
+  border-radius: 4px;
+}
+
+.skill-mf .progress {
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+/* Tech badges lift slightly on hover for a bit of interactivity */
+.tech-badge {
+  transition: transform .2s ease, background-color .2s ease;
+}
+
+.tech-badge:hover {
+  transform: translateY(-2px);
+  background: rgba(249, 109, 0, 0.18);
+}
+
+/* Consistent section rhythm so content never feels cramped against the
+   next section, at any screen size */
+.ftco-section {
+  padding-top: 5.5em;
+  padding-bottom: 5.5em;
+}
+
+@media (max-width: 767.98px) {
+  .ftco-section {
+    padding-top: 4em;
+    padding-bottom: 4em;
   }
 }
 
