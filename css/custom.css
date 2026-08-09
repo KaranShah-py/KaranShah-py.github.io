@@ -12,16 +12,18 @@
   background: transparent;
   border: 2px solid rgba(255,255,255,0.6);
   color: #fff;
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   margin-left: 12px;
-  font-size: 16px;
-  transition: background .25s ease, transform .25s ease, border-color .25s ease;
+  font-size: 20px;
+  transition: background .25s ease, transform .25s ease, border-color .25s ease, color .25s ease;
+  z-index: 10;
+  position: relative;
 }
 
 .theme-toggle-btn:hover {
@@ -31,133 +33,300 @@
 
 .ftco_navbar.scrolled .theme-toggle-btn,
 .ftco_navbar.awake .theme-toggle-btn {
-  border-color: rgba(0,0,0,0.35);
-  color: #1a1a1a;
+  border-color: rgba(0,0,0,0.4);
+  color: #000000;
 }
 
 .ftco_navbar.scrolled .theme-toggle-btn:hover,
 .ftco_navbar.awake .theme-toggle-btn:hover {
-  background: rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.1);
 }
 
-/* Robust CSS-variable based theme (replaces the old invert-filter hack,
-   which produced inconsistent font colours when switching back to light). */
+/* Navbar base styling */
+.ftco_navbar {
+  background-color: transparent !important;
+  transition: background-color .3s ease;
+}
+
+/* Navbar initial state (before scroll) */
+.ftco_navbar .nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: color .3s ease;
+}
+
+.ftco_navbar .nav-link:hover {
+  color: #fff !important;
+}
+
+.ftco_navbar .navbar-brand {
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.ftco_navbar .navbar-toggler {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* Navbar scrolled state */
+.ftco_navbar.scrolled,
+.ftco_navbar.awake {
+  background-color: var(--bg-primary) !important;
+  box-shadow: 0 2px 8px var(--card-shadow);
+}
+
+.ftco_navbar.scrolled .nav-link,
+.ftco_navbar.awake .nav-link {
+  color: var(--text-heading) !important;
+}
+
+.ftco_navbar.scrolled .navbar-brand,
+.ftco_navbar.awake .navbar-brand {
+  color: var(--text-heading) !important;
+}
+
+.ftco_navbar.scrolled .navbar-toggler,
+.ftco_navbar.awake .navbar-toggler {
+  color: var(--text-heading) !important;
+  border-color: var(--card-border) !important;
+}
+
+/* ========== ENHANCED THEME SYSTEM ==========
+   Complete CSS variable system for consistent theming across ALL components.
+   Handles text, backgrounds, borders, shadows, and interactive elements. */
 :root {
+  /* Primary Colors */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f0f0f0;
+  
+  /* Text Colors - Light Mode */
   --text-primary: #6f6f6f;
   --text-heading: #000000;
   --text-muted: #6c757d;
+  --text-light: #a0a0a0;
+  --text-contrast: #ffffff;
+  
+  /* Accent & Highlights */
+  --accent: #F96D00;
+  --accent-light: #ffbd39;
+  --accent-muted: rgba(249, 109, 0, 0.15);
+  
+  /* Card & Container Styling */
   --card-bg: rgba(0, 0, 0, 0.03);
   --card-border: rgba(0, 0, 0, 0.08);
-  --accent: #F96D00;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: rgba(0, 0, 0, 0.15);
+  
+  /* Progress Bars & Input */
+  --progress-bg: #e9ecef;
+  --input-border: #dee2e6;
+  
+  /* Overlay & Backdrop */
+  --overlay-dark: rgba(0, 0, 0, 0.05);
 }
 
 body.dark-mode {
-  --bg-primary: #121417;
-  --bg-secondary: #1a1d21;
+  /* Primary Colors - Dark Mode */
+  --bg-primary: #0a0e12;
+  --bg-secondary: #121417;
+  --bg-tertiary: #1a1d21;
+  
+  /* Text Colors - Dark Mode */
   --text-primary: #d5d8dc;
   --text-heading: #ffffff;
   --text-muted: #a7acb3;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.1);
+  --text-light: #8a8f96;
+  --text-contrast: #000000;
+  
+  /* Accent & Highlights */
   --accent: #ff9142;
+  --accent-light: #ffb85c;
+  --accent-muted: rgba(255, 145, 66, 0.2);
+  
+  /* Card & Container Styling */
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: rgba(0, 0, 0, 0.5);
+  
+  /* Progress Bars & Input */
+  --progress-bg: #2d3139;
+  --input-border: #3a3f47;
+  
+  /* Overlay & Backdrop */
+  --overlay-dark: rgba(0, 0, 0, 0.2);
 }
 
 body {
   background-color: var(--bg-primary) !important;
   color: var(--text-primary) !important;
-  transition: background-color .35s ease, color .35s ease;
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease;
 }
 
-/* headings + generic text
-   Note: h1.big is the giant faint "About"/"Resume" watermark text —
-   it must be excluded here so it keeps its original low-opacity styling
-   from style.css and stays behind the real content instead of on top of it. */
-h1:not(.big), h2:not(.big), h3, h4, h5, h6,
+/* ========== COMPLETE TEXT & HEADING THEMING ========== */
+h1, h2, h3, h4, h5, h6,
 .about-info span:first-child,
-.heading-section h2 {
+.heading-section h2,
+.heading-section h1 {
   color: var(--text-heading) !important;
+  transition: color .35s ease;
+  font-weight: 700;
 }
 
-p, li, span, label, .about-info span {
-  color: var(--text-primary);
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
-.date, .position, .title-s, .timeline-role, .timeline-desc, .subheading {
+/* Completely hide watermark text */
+h1.big:not(.big-2):not(.big-3):not(.big-4),
+h2.big:not(.big-2):not(.big-3):not(.big-4) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Show numbered big classes normally */
+.big-2, .big-3, .big-4 {
+  color: var(--text-heading) !important;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+p, li, label, .text, .subheading {
+  color: var(--text-primary) !important;
+  transition: color .35s ease;
+}
+
+.date, .position, .title-s, .timeline-role, .timeline-desc {
   color: var(--text-muted) !important;
+  transition: color .35s ease;
 }
 
-/* Links default to #000000 in the original stylesheet (style.css), which
-   is why they stayed black in dark mode. Fix the base rule plus every
-   more-specific link rule that also hardcodes black. */
-a {
-  color: var(--text-heading);
-}
-
-a:hover, a:focus {
-  color: var(--accent);
-}
-
-.blog-entry .text .heading a,
-.contact-section .contact-info p a,
-.contact-section .box h3 a {
+/* ========== LINK THEMING - COMPREHENSIVE ========== */
+/* Default link styling */
+a, .ftco-animate a {
   color: var(--text-heading) !important;
+  transition: color .25s ease;
+}
+
+a:hover, a:focus, .ftco-animate a:hover {
+  color: var(--accent) !important;
+}
+
+/* Navbar links - override defaults */
+.ftco_navbar a, .nav-link a {
+  color: inherit !important;
+}
+
+/* Ensure all specific link types are themed */
+.blog-entry .text .heading a,
+.blog-entry .text .heading a:hover,
+.contact-section .contact-info p a,
+.contact-section .contact-info p a:hover,
+.contact-section .box h3 a,
+.contact-section .box h3 a:hover,
+.about-info a,
+.about-info a:hover {
+  color: var(--text-heading);
+  transition: color .25s ease;
 }
 
 .blog-entry .text .heading a:hover,
 .contact-section .contact-info p a:hover,
-.contact-section .box h3 a:hover {
+.contact-section .box h3 a:hover,
+.about-info a:hover {
   color: var(--accent) !important;
 }
 
-.blog-entry .text p,
-.contact-section .box {
-  color: var(--text-primary);
-}
-
-/* section + card backgrounds (skip elements that carry their own photo backgrounds) */
-.ftco-section:not(.img),
-.ftco-about:not(.img) {
+/* ========== CARD & SECTION BACKGROUNDS ========== */
+.ftco-section, .ftco-about {
   background-color: var(--bg-primary) !important;
+  transition: background-color .35s ease;
 }
 
 .resume-wrap,
 .services-1,
 .contact-section .box,
 .blog-entry .text,
-.career-timeline-wrap .timeline-item {
+.career-timeline-wrap .timeline-item,
+.block-18,
+.about-img {
   background-color: var(--card-bg) !important;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--card-border) !important;
+  transition: background-color .35s ease, border-color .35s ease, box-shadow .25s ease;
 }
 
 .about-info,
-.skill-mf {
-  color: var(--text-primary);
+.skill-mf,
+.block-18 .text {
+  color: var(--text-primary) !important;
 }
 
-a {
-  transition: color .25s ease;
-}
-
-body.dark-mode img,
+/* ========== IMAGE ADJUSTMENTS FOR DARK MODE ========== */
+body.dark-mode img:not(.no-filter),
 body.dark-mode .about-img img {
   filter: brightness(.92);
 }
 
+/* ========== BUTTON THEMING ========== */
+.btn-primary {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--accent-light) !important;
+  border-color: var(--accent-light) !important;
+}
+
 body.dark-mode .btn-primary {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
 }
 
 /* ---------- 2. Animated skill bars ---------- */
-.skill-mf .progress-bar {
-  width: 0% !important;
-  transition: width 1.4s cubic-bezier(.22,.61,.36,1);
+.skill-mf .progress {
+  background-color: var(--progress-bg) !important;
+  border-radius: 4px !important;
+  overflow: hidden;
+  height: 0.6rem !important;
+  margin: 0.8rem 0 1.2rem 0 !important;
+  display: block !important;
 }
 
-.skill-mf .progress-bar.animated {
-  /* width set inline by JS to the target percentage */
+.skill-mf .progress-bar {
+  transition: none !important;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light)) !important;
+  border-radius: 4px !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+.skill-mf > span {
+  display: inline-block;
+  color: var(--text-primary) !important;
+  font-weight: 500;
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.skill-mf .pull-right {
+  display: inline-block;
+  float: right;
+  color: var(--accent) !important;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 /* ---------- 3. Scroll-to-top button ---------- */
@@ -165,22 +334,22 @@ body.dark-mode .btn-primary {
   position: fixed;
   right: 24px;
   bottom: 24px;
-  width: 46px;
-  height: 46px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: #F96D00;
-  color: #fff;
+  background: var(--accent);
+  color: var(--text-contrast);
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 18px var(--card-shadow);
   opacity: 0;
   visibility: hidden;
   transform: translateY(15px);
-  transition: opacity .3s ease, transform .3s ease, visibility .3s ease, background .2s ease;
+  transition: opacity .3s ease, transform .3s ease, visibility .3s ease, background .2s ease, box-shadow .2s ease;
   z-index: 999;
 }
 
@@ -191,39 +360,63 @@ body.dark-mode .btn-primary {
 }
 
 #scrollTopBtn:hover {
-  background: #d75c00;
+  background: var(--accent-light);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px var(--card-shadow-hover);
 }
 
 /* ---------- 4. Active nav link highlighting ---------- */
-#ftco-nav .nav-link.active-link {
+#ftco-nav .nav-link {
   position: relative;
-  color: #F96D00 !important;
+  transition: color .3s ease;
+}
+
+#ftco-nav .nav-link.active-link {
+  color: var(--accent) !important;
+  font-weight: 600;
 }
 
 #ftco-nav .nav-link.active-link:after {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -4px;
+  bottom: -6px;
   transform: translateX(-50%);
-  width: 60%;
-  height: 2px;
-  background: #F96D00;
+  width: 70%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 3px;
 }
 
-/* ---------- 5. Career / Tech timeline ---------- */
+#ftco-nav .nav-link:hover {
+  color: var(--accent) !important;
+}
+
+/* ---------- 5. Career / Tech timeline - VERTICAL CENTERED LAYOUT ---------- */
 .career-timeline-wrap {
   position: relative;
-  padding: 10px 0 10px 30px;
-  border-left: 3px solid rgba(249, 109, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px 0 20px 40px;
+  border-left: 3px solid transparent;
+  border-image: linear-gradient(180deg, var(--accent) 0%, var(--accent-muted) 100%) 1;
+  margin: 0 auto;
+  max-width: 600px;
 }
 
 .timeline-item {
   position: relative;
+  flex: 0 0 auto;
   margin-bottom: 42px;
   opacity: 0;
   transform: translateX(-25px);
   transition: opacity .6s ease, transform .6s ease;
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-sizing: border-box;
 }
 
 .timeline-item.in-view {
@@ -238,68 +431,107 @@ body.dark-mode .btn-primary {
 .timeline-item .timeline-dot {
   position: absolute;
   left: -38px;
-  top: 4px;
+  top: 8px;
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #fff;
-  border: 3px solid #F96D00;
+  background: var(--bg-primary) !important;
+  border: 3px solid var(--accent) !important;
   box-shadow: 0 0 0 4px rgba(249,109,0,0.12);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px rgba(249, 109, 0, 0.2);
+}
+
+.timeline-item:hover {
+  transform: translateX(0);
+  box-shadow: 0 16px 36px var(--card-shadow);
 }
 
 .timeline-item .timeline-date {
   display: inline-block;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  color: #F96D00;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  opacity: 0.95;
 }
 
 .timeline-item h3 {
-  font-size: 19px;
-  font-weight: 600;
-  margin-bottom: 2px;
-  color: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text-heading);
+  letter-spacing: -0.3px;
 }
 
 .timeline-item .timeline-role {
   display: block;
   font-size: 14px;
-  color: #6c757d;
-  margin-bottom: 10px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-weight: 500;
 }
 
 .timeline-item .timeline-desc {
   font-size: 14.5px;
-  line-height: 1.7;
-  margin-bottom: 10px;
+  line-height: 1.75;
+  margin-bottom: 12px;
+  color: var(--text-primary);
 }
 
 .tech-badge-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
 .tech-badge {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 11px;
-  border-radius: 20px;
-  background: rgba(249,109,0,0.1);
-  color: #F96D00;
-  border: 1px solid rgba(249,109,0,0.25);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 13px;
+  border-radius: 24px;
+  background: var(--accent-muted);
+  color: var(--accent);
+  border: 1px solid transparent;
   white-space: nowrap;
+  letter-spacing: 0.3px;
+  transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
 }
 
-@media (max-width: 767px) {
+.tech-badge:hover {
+  transform: translateY(-2px);
+  background: var(--accent-light);
+  color: var(--text-contrast);
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+/* ========== MOBILE RESPONSIVE - TIMELINE ========== */
+@media (max-width: 767.98px) {
   .career-timeline-wrap {
-    padding-left: 24px;
+    padding-left: 20px;
+    border-left-width: 2px;
   }
   .timeline-item .timeline-dot {
-    left: -31px;
+    left: -27px;
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+  .timeline-item h3 {
+    font-size: 16px;
+  }
+  .timeline-item .timeline-desc {
+    font-size: 13.5px;
+  }
+  .tech-badge {
+    font-size: 10px;
+    padding: 4px 10px;
   }
 }
 
@@ -383,98 +615,115 @@ img {
   word-break: break-word;
 }
 
+/* ========== MOBILE RESPONSIVE - ABOUT & INFO ========== */
 @media (max-width: 575.98px) {
+  .about-info li {
+    flex-direction: column !important;
+    margin-bottom: 12px;
+  }
   .about-info li span:first-child {
     width: 100% !important;
     display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
   }
-  .about-info li {
-    flex-direction: column;
+  .about-info li span:last-child {
+    width: 100% !important;
+  }
+  .skill-mf span {
+    font-size: 14px;
+  }
+  .skill-mf .pull-right {
+    display: block;
+    margin-top: 4px;
+  }
+  .counter-wrap .text p {
+    font-size: 16px;
   }
 }
 
 /* ---------- 7. UI polish ---------- */
 
-/* Cards get a soft shadow + gentle lift on hover instead of sitting flat */
+/* ========== CARD HOVER & INTERACTION EFFECTS ========== */
 .resume-wrap,
 .blog-entry,
 .contact-section .box,
-.timeline-item {
-  border-radius: 10px;
-  transition: transform .25s ease, box-shadow .25s ease, background-color .35s ease, border-color .35s ease;
+.timeline-item,
+.block-18 {
+  border-radius: 12px;
+  transition: transform .3s cubic-bezier(.2, .85, .4, 1.1), 
+              box-shadow .3s ease, 
+              background-color .35s ease, 
+              border-color .35s ease;
 }
 
 .resume-wrap:hover,
 .contact-section .box:hover,
-.career-timeline-wrap .timeline-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+.career-timeline-wrap .timeline-item:hover,
+.block-18:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px var(--card-shadow);
 }
 
 body.dark-mode .resume-wrap:hover,
 body.dark-mode .contact-section .box:hover,
-body.dark-mode .career-timeline-wrap .timeline-item:hover {
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+body.dark-mode .career-timeline-wrap .timeline-item:hover,
+body.dark-mode .block-18:hover {
+  box-shadow: 0 16px 36px var(--card-shadow-hover);
 }
 
-/* Project thumbnails: subtle zoom on hover instead of a hard jump cut */
+/* ========== PROJECT THUMBNAILS ========== */
 .blog-entry {
   overflow: hidden;
+  border-radius: 12px;
 }
 
 .blog-entry .block-20.zoom-effect {
-  transition: transform .5s ease;
+  transition: transform .5s cubic-bezier(.2, .85, .4, 1);
+  border-radius: 12px;
 }
 
 .blog-entry:hover .block-20.zoom-effect {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
-/* Buttons feel more tactile */
+/* ========== BUTTON INTERACTIONS ========== */
 .btn-primary {
-  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+  transition: transform .25s cubic-bezier(.2, .85, .4, 1), 
+              box-shadow .25s ease, 
+              background-color .25s ease,
+              border-color .25s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(249, 109, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(249, 109, 0, 0.35);
 }
 
-/* Timeline connecting line gets a soft gradient fade instead of a flat rule */
-.career-timeline-wrap {
-  border-left: 3px solid transparent;
-  border-image: linear-gradient(180deg, var(--accent) 0%, rgba(249, 109, 0, 0.08) 100%) 1;
+.btn-primary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(249, 109, 0, 0.28);
 }
 
+/* ========== TIMELINE DOT INTERACTIONS ========== */
 .timeline-item .timeline-dot {
-  transition: transform .25s ease, box-shadow .25s ease;
+  transition: transform .3s cubic-bezier(.2, .85, .4, 1), 
+              box-shadow .3s ease,
+              background-color .3s ease;
+  background: var(--bg-primary) !important;
+  border: 3px solid var(--accent) !important;
+}
+
+body.dark-mode .timeline-item .timeline-dot {
+  background: var(--bg-secondary) !important;
 }
 
 .timeline-item:hover .timeline-dot {
-  transform: scale(1.15);
-  box-shadow: 0 0 0 6px rgba(249, 109, 0, 0.18);
-}
-
-/* Skill bars get a subtle gradient instead of a flat block of colour */
-.skill-mf .progress-bar {
-  background: linear-gradient(90deg, var(--accent), #ffbd39);
-  border-radius: 4px;
-}
-
-.skill-mf .progress {
-  border-radius: 4px;
-  overflow: hidden;
-  background: var(--card-bg);
-}
-
-/* Tech badges lift slightly on hover for a bit of interactivity */
-.tech-badge {
-  transition: transform .2s ease, background-color .2s ease;
-}
-
-.tech-badge:hover {
-  transform: translateY(-2px);
-  background: rgba(249, 109, 0, 0.18);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 8px var(--accent-muted);
+  background: var(--accent) !important;
 }
 
 /* Consistent section rhythm so content never feels cramped against the
@@ -489,5 +738,258 @@ body.dark-mode .career-timeline-wrap .timeline-item:hover {
     padding-top: 4em;
     padding-bottom: 4em;
   }
+}
+
+/* ========== PROFESSIONAL POLISH & ACCESSIBILITY ========== */
+
+/* Ensure proper focus states for keyboard navigation */
+a:focus, button:focus, .nav-link:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Better text selection color */
+::selection {
+  background-color: var(--accent);
+  color: var(--text-contrast);
+}
+
+::-moz-selection {
+  background-color: var(--accent);
+  color: var(--text-contrast);
+}
+
+/* Smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Improve link accessibility */
+a[href] {
+  text-decoration: none;
+  position: relative;
+}
+
+/* Enhance button accessibility */
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Better form element styling */
+input, textarea, select {
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--input-border);
+  transition: border-color .3s ease, background-color .3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  background-color: var(--bg-primary);
+}
+
+/* Hero section improvements */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero .home-slider {
+  min-height: 100vh;
+}
+
+/* About section image enhancement */
+.about-img {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--card-shadow);
+}
+
+/* Contact section polish */
+.contact-section .box {
+  transition: all 0.3s cubic-bezier(.2, .85, .4, 1);
+}
+
+.contact-section .icon {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+/* Blog/Project card improvements */
+.blog-entry {
+  transition: all 0.3s cubic-bezier(.2, .85, .4, 1);
+}
+
+.blog-entry .text {
+  padding: 1.5rem;
+}
+
+.blog-entry .text h3 {
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.blog-entry .text p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Counter section styling */
+.counter-wrap {
+  transition: transform 0.3s ease;
+}
+
+.counter-wrap:hover {
+  transform: translateY(-4px);
+}
+
+.counter-wrap .text p {
+  color: var(--text-primary) !important;
+}
+
+.counter-wrap .number {
+  color: var(--accent) !important;
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+
+.counter-wrap p span {
+  color: var(--text-primary) !important;
+}
+
+.counter-wrap p span:not(.number) {
+  color: var(--text-primary) !important;
+}
+
+.project-counter .number,
+.project-counter p span:not(.number) {
+  color: var(--accent) !important;
+}
+
+body.dark-mode .project-counter .number,
+body.dark-mode .project-counter p span:not(.number) {
+  color: #ffffff !important;
+}
+
+.block-18 {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+}
+
+.block-18 .text strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.block-18 .text span {
+  display: block;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Underline styling for section headers */
+.underline {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  margin: 0.5rem auto 2rem auto;
+  border-radius: 3px;
+}
+
+@media (max-width: 991.98px) {
+  .col-md-3 {
+    flex: 0 0 50%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .career-timeline-wrap {
+    padding-left: 20px;
+  }
+  .timeline-item {
+    margin-bottom: 30px;
+  }
+  .timeline-item .timeline-dot {
+    left: -27px;
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+  .timeline-item h3 {
+    font-size: 16px;
+  }
+  .timeline-item .timeline-desc {
+    font-size: 13.5px;
+  }
+  .tech-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .col-md-3 {
+    flex: 0 0 100%;
+  }
+  
+  .blog-entry .text {
+    padding: 1.25rem;
+  }
+  
+  .hero .home-slider {
+    min-height: auto;
+  }
+}
+
+/* Improved footer banner */
+.ftco-hireme.img {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ftco-hireme.img .text-center {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+}
+
+@media (max-width: 767.98px) {
+  .ftco-hireme.img {
+    min-height: 280px;
+    background-attachment: scroll;
+  }
+}
+
+/* Smooth transitions for all theme-aware elements */
+body, body > *, a, button, input, textarea, select {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.35s;
+  transition-timing-function: ease;
+}
+
+/* But exclude animations from performance-critical elements */
+.skill-mf .progress-bar,
+.timeline-item,
+.blog-entry .block-20,
+.zoom-effect {
+  transition: none !important;
+}
+
+/* Ensure images respect parent container */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 

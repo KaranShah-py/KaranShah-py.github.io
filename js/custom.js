@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var applyTheme = function (isDark) {
         body.classList.toggle('dark-mode', isDark);
         btn.innerHTML = isDark ? '☀️' : '🌙';
+        btn.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        
+        // Force repaint for better transition
+        body.offsetHeight;
       };
 
       var saved = localStorage.getItem(STORAGE_KEY);
@@ -43,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var isDark = !body.classList.contains('dark-mode');
         applyTheme(isDark);
         localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
+        
+        // Add smooth transition class
+        body.style.transition = 'background-color 0.35s ease, color 0.35s ease';
       });
     }
   })();
@@ -197,6 +204,65 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { threshold: 0.15 });
 
     items.forEach(function (item) { observer.observe(item); });
+  })();
+
+  /* -----------------------------------------------
+     6. ENHANCED INTERACTIVITY & POLISH
+  ------------------------------------------------ */
+  (function enhancements() {
+    // Add smooth transitions to all interactive elements
+    var interactive = document.querySelectorAll('a, button, .btn, .nav-link, .block-18, .resume-wrap');
+    interactive.forEach(function (el) {
+      el.style.willChange = 'transform, box-shadow';
+    });
+
+    // Enhance counter animations when visible
+    var counters = document.querySelectorAll('.number');
+    if (counters.length) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+            var target = parseInt(entry.target.getAttribute('data-number'), 10);
+            var count = 0;
+            var increment = target / 30; // Animate over 30 frames
+            var timer = setInterval(function () {
+              count += increment;
+              if (count >= target) {
+                entry.target.textContent = target;
+                clearInterval(timer);
+                entry.target.classList.add('counted');
+              } else {
+                entry.target.textContent = Math.floor(count);
+              }
+            }, 30);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      counters.forEach(function (counter) { observer.observe(counter); });
+    }
+
+    // Enhance project image loading with fade-in effect
+    var projectImages = document.querySelectorAll('.zoom-effect');
+    projectImages.forEach(function (img) {
+      img.style.opacity = '0';
+      var timer = setTimeout(function () {
+        img.style.transition = 'opacity 0.6s ease-out';
+        img.style.opacity = '1';
+      }, 100);
+    });
+
+    // Improve navbar dropdown behavior on mobile
+    var navToggle = document.querySelector('.navbar-toggler');
+    if (navToggle) {
+      navToggle.addEventListener('click', function () {
+        var navbar = document.querySelector('.navbar-collapse');
+        if (navbar) {
+          navbar.style.transition = 'max-height 0.3s ease';
+        }
+      });
+    }
   })();
 
 });

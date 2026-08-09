@@ -58,25 +58,26 @@
 }
 
 
-/* Animation styles */
+/* Animation styles - Enhanced for theme support */
 #typing-animation {
   position: relative;
-  font-size: 30px;
-  font-weight: bold;
-  color:#000000;
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 700;
+  color: var(--accent);
   overflow: hidden;
   white-space: nowrap;
+  letter-spacing: -0.5px;
+  min-height: 2em;
   animation: typing 3s steps(20, end) infinite;
 }
 
 #typing-animation:before {
   content: "";
-  /* position: absolute; */
   top: 0;
   left: 0;
   width: 0;
   height: 100%;
-  background-color: #000000;
+  background-color: transparent;
   animation: typing-cursor 0.5s ease-in-out infinite;
 }
 
@@ -99,15 +100,50 @@
 }
 
 
-/* project image zoom effect */
-
+/* project image zoom effect with enhanced interactivity */
 .zoom-effect {
   overflow: hidden;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.5s cubic-bezier(.2, .85, .4, 1);
+  border-radius: 12px;
+  display: block;
 }
 
 .zoom-effect:hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 767.98px) {
+  #typing-animation {
+    font-size: clamp(18px, 4vw, 28px);
+  }
+  
+  .about-mf .about-img {
+    margin-bottom: 1.5rem;
+  }
+  
+  .skill-mf {
+    margin-top: 1rem;
+  }
+  
+  .counter-wrap .text p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .zoom-effect {
+    min-height: 250px;
+  }
+  
+  .skill-mf .progress {
+    margin: 0.6rem 0 1rem 0;
+    height: 0.6rem;
+  }
+  
+  .skill-mf span {
+    font-size: 13px;
+  }
 }
 
 
@@ -206,6 +242,11 @@
 
     <section class="ftco-about img ftco-section ftco-no-pb" id="about-section">
     	<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-10 heading-section text-center ftco-animate">
+					<h2>About Me</h2>
+				</div>
+			</div>
 			<div class="row">
 				<div class="row d-flex align-items-stretch">
 				<!-- <div class="row d-flex"> -->
@@ -281,9 +322,7 @@
 						<div class="row justify-content-start pb-3">
 							<div class="col-md-12 heading-section ftco-animate">
 								
-								<h1 class="big">About</h1>
-								<h2 class="mb-4">About Me</h2>
-								
+
 								<p>   
 									  Data Engineer with <strong>~3 years</strong> of experience building and scaling ETL pipelines that process <strong>100M+ records daily</strong> across <strong>350+ tables</strong>, using Databricks, PySpark, SQL, and Azure. 
 									  I've led data migration and automation projects for enterprise clients, managing teams of <strong>6+</strong> and driving end-to-end delivery from problem definition through transformation and visualization. 
@@ -307,7 +346,7 @@
 						</div>
 
 
-						<div class="counter-wrap ftco-animate d-flex mt-md-3">
+						<div class="counter-wrap project-counter ftco-animate d-flex mt-md-3">
 							<div class="text">
 								<p class="mb-4">
 									<span class="number" data-number="15">0</span> <span>+</span>
@@ -329,8 +368,7 @@
     	<div class="container">
     		<div class="row justify-content-center pb-5">
           <div class="col-md-10 heading-section text-center ftco-animate">
-          	<h1 class="big big-2">Resume</h1>
-            <h2 class="mb-4">Resume</h2>
+          	<h2 class="mb-4">Resume</h2>
             <p>Consultant specializing in Data Engineering and Agentic AI, building large-scale ETL pipelines on Databricks and developing RAG and multi-agent systems with LangChain, LangGraph, and Google ADK.</p>
           </div>
         </div>
@@ -338,39 +376,52 @@
 		<div class="row justify-content-center mt-5">
 			<div class="col-md-6 text-center ftco-animate">
 				<p>
-					<a href="https://drive.google.com/file/d/1w31DgLXzRuMdDMn8N0XLj0xplIdF7SpC/view?usp=sharing"
+					<a href="https://drive.google.com/file/d/1cjfmM0-hjIPX-3xvnbt-X2YD5FXWH4A4/view?usp=sharing"
 						class="btn btn-primary py-4 px-5">Download CV</a>
 				</p>
 			</div>
 		</div>
 
-		<div class="row">
-			<h1 class="big-4">Experience &amp; Journey</h1>
-			<div class="underline"></div>
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
+				<h2>Experience &amp; Journey</h2>
+				<div class="underline"></div>
+			</div>
 		</div>
 		<br>
 
-		<div class="row">
-				<div class="col-md-7">
-					<!-- Dynamically rendered by js/custom.js — see timelineData array to edit -->
-					<div id="career-timeline"></div>
-				</div>
-
-				<div class="col-md-5">
-					<div class="resume-wrap ftco-animate">
-						<p class="mt-4"><b>"Business Extraordinaire" Award</b>
-							<img src="images/ExtraordinaireCertificate.png" class="img-fluid rounded b-shadow-a" alt="">
-						</p>
-					</div>
+		<!-- Awards & Appreciation - Horizontal Layout -->
+		<div class="row mb-5">
+			<div class="col-md-6">
+				<div class="resume-wrap ftco-animate">
+					<p class="mb-3"><b style="color: var(--text-heading);">"Business Extraordinaire" Award</b></p>
+					<img src="images/ExtraordinaireCertificate.png" class="img-fluid rounded" alt="Business Extraordinaire Award Certificate">
 				</div>
 			</div>
+			<div class="col-md-6">
+				<div class="resume-wrap ftco-animate">
+					<p class="mb-3"><b style="color: var(--text-heading);">Deloitte Appreciation</b></p>
+					<img src="images/DeloitteAppreciation.png" class="img-fluid rounded" alt="Deloitte Appreciation Certificate">
+				</div>
+			</div>
+		</div>
+
+		<!-- Timeline - Vertically Centered -->
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<!-- Dynamically rendered by js/custom.js — see timelineData array to edit -->
+				<div id="career-timeline"></div>
+			</div>
+		</div>
 
 		<br>
 		<br>
 
-		<div class="row">
-			<h1 class="big-4">Education & Certifications</h1>
-			<div class="underline"></div>
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
+				<h2>Education &amp; Certifications</h2>
+				<div class="underline"></div>
+			</div>
 		</div>
 		<br>
 
@@ -408,7 +459,6 @@
       <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-3 heading-section text-center ftco-animate">
-            <h1 class="big big-2">Projects</h1>
             <h2 class="mb-4">Projects</h2>
             <p>The following data analytics projects were completed across various functional areas, including finance, social media analytics, and sales.</p>
           </div>
@@ -522,7 +572,6 @@
       <div class="container">
       	<div class="row justify-content-center mb-5 pb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
-            <h1 class="big big-2">Contact</h1>
             <h2 class="mb-4">Contact Me</h2>
             <p>Below are the details to reach out to me!</p>
           </div>
@@ -558,20 +607,18 @@
           		<div class="icon d-flex align-items-center justify-content-center">
           			<span class="icon-globe"></span>
           		</div>
-          		<h3 class="mb-4"><a href="https://drive.google.com/file/d/1w31DgLXzRuMdDMn8N0XLj0xplIdF7SpC/view?usp=sharing"><b>Resume</b></a></h3>
+          		<h3 class="mb-4"><a href="https://drive.google.com/file/d/1cjfmM0-hjIPX-3xvnbt-X2YD5FXWH4A4/view?usp=sharing"><b>Resume</b></a></h3>
 	          </div>
           </div>
+		</div>
 
-		  <div class="container">
-			<br>
-			<br>
-			<div class="row justify-content-center">
-				<div class="col-md-7 ftco-animate text-center">
-					<h2>Have a<span> Question?  </span> <a href="https://forms.gle/23Q5WPdcLdr7DTLFA" class="btn btn-primary py-3 px-5">Click Here</a> </h2>
-				</div>
+		<div class="row justify-content-center pt-4">
+			<div class="col-md-7 ftco-animate text-center">
+				<h2>Have a<span> Question? </span><a href="https://forms.gle/23Q5WPdcLdr7DTLFA" class="btn btn-primary py-3 px-5">Click Here</a></h2>
 			</div>
-   </div>
- </section>
+		</div>
+      </div>
+    </section>
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
