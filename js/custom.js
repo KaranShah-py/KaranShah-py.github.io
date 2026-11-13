@@ -666,31 +666,107 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-  /* ===== AWARDS CAROUSEL - SMOOTH SCROLLING ===== */
-  (function initAwardsCarousel() {
-    const wrapper = document.getElementById('awardsScrollWrapper');
-    if (!wrapper) return;
+/* ===== AWARDS CAROUSEL - CONTINUOUS SMOOTH SCROLLING ===== */
+(function initAwardsCarousel() {
+  const wrapper = document.getElementById('awardsScrollWrapper');
 
-    // Get original cards
-    const originalCards = Array.from(wrapper.querySelectorAll('.award-card'));
-    const cardCount = originalCards.length;
+  if (!wrapper) return;
 
-    if (cardCount > 0) {
-      // Clone cards 2 times for smooth looping
-      for (let i = 0; i < 20; i++) {
-        originalCards.forEach(card => {
-          const clone = card.cloneNode(true);
-          wrapper.appendChild(clone);
-        });
-      }
+  const originalCards = Array.from(
+    wrapper.querySelectorAll('.award-card')
+  );
 
-      // Get wrapper's parent (scroll container)
-      const scrollContainer = wrapper.parentElement;
-      if (scrollContainer) {
-        // Apply animation via CSS - 4 hour cycle (14400 seconds)
-        wrapper.style.animation = 'scrollLeft linear infinite 30s';
-      }
+  if (!originalCards.length) return;
+
+  /*
+   * Create one duplicate set.
+   * We only need one additional copy because
+   * the animation continuously moves through one
+   * complete set before repeating.
+   */
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    wrapper.appendChild(clone);
+  });
+
+  const scrollContainer = wrapper.parentElement;
+
+  if (!scrollContainer) return;
+
+  /*
+   * Make sure the container hides cards outside
+   * the visible area.
+   */
+  scrollContainer.style.overflow = 'hidden';
+
+  /*
+   * Make the wrapper a single horizontal row.
+   */
+  wrapper.style.display = 'flex';
+  wrapper.style.flexWrap = 'nowrap';
+  wrapper.style.willChange = 'transform';
+
+  let position = 0;
+  let animationFrame;
+  let lastTimestamp = null;
+
+  /*
+   * Adjust this value to control speed.
+   *
+   * 0.04 = slower
+   * 0.06 = normal
+   * 0.08 = faster
+   */
+  const speed = 0.06;
+
+  function animate(timestamp) {
+    if (!lastTimestamp) {
+      lastTimestamp = timestamp;
     }
-  })();
 
+    const deltaTime = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
 
+    position -= speed * deltaTime;
+
+    /*
+     * Calculate the width of the first set of cards.
+     * The second set is an exact copy, so once the
+     * first set has completely moved away, we reset
+     * the position by exactly that amount.
+     */
+    const firstCardSetWidth =
+      wrapper.scrollWidth / 2;
+
+    if (Math.abs(position) >= firstCardSetWidth) {
+      position += firstCardSetWidth;
+    }
+
+    wrapper.style.transform =
+      `translate3d(${position}px, 0, 0)`;
+
+    animationFrame =
+      requestAnimationFrame(animate);
+  }
+
+  /*
+   * Start animation.
+   */
+  animationFrame =
+    requestAnimationFrame(animate);
+
+  /*
+   * Pause when the browser tab is not visible.
+   * This avoids unnecessary processing.
+   */
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      cancelAnimationFrame(animationFrame);
+      lastTimestamp = null;
+    } else {
+      animationFrame =
+        requestAnimationFrame(animate);
+    }
+  });
+})();
