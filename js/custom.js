@@ -688,7 +688,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const scrollContainer = wrapper.parentElement;
       if (scrollContainer) {
         // Apply animation via CSS - 4 hour cycle (14400 seconds)
-        wrapper.style.animation = 'scrollLeft linear infinite 180s';
+        wrapper.style.animation = 'scrollLeft linear infinite 30s';
       }
     }
   })();
