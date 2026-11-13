@@ -718,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function () {
    * 0.06 = normal
    * 0.08 = faster
    */
-  const speed = 0.06;
+  const speed = 0.03;
 
   function animate(timestamp) {
     if (!lastTimestamp) {
