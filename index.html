@@ -81,6 +81,21 @@
   animation: typing-cursor 0.5s ease-in-out infinite;
 }
 
+/* Skills typing animation - plain text, no box */
+#skills-typing-animation {
+  position: relative;
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 600;
+  color: var(--accent);
+  overflow: visible;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  letter-spacing: 0.5px;
+  min-height: 1.8em;
+  display: block;
+  line-height: 1.5;
+}
+
 @keyframes typing {
   from {
     width: 0;
@@ -189,41 +204,11 @@
 						<!-- Element to contain animated typing -->
 						<span id="typing-animation"></span>
 
-						<script>
-
-						// Initialize the typing animation
-						const typingAnimationElement = document.getElementById('typing-animation');
-
-						// Create an array of typing text
-						const typingTexts = [
-						'Data Engineer  ',
-						'Agentic AI Engineer  ',
-						'Consultant  ',
-						'Teacher   ',
-						];
-
-						// Create a function to display the typing animation for a given text
-						function playTypingAnimation(text) {
-						// Loop through each character and add it to the element
-						for (let i = 0; i < text.length; i++) {
-							setTimeout(() => {
-							typingAnimationElement.textContent += text[i];
-							}, i * 200); // Increase the delay to slow down the typing animation
-						}
-
-						// Once the animation is complete, reset the text and start over
-						setTimeout(() => {
-							typingAnimationElement.textContent = '';
-							playTypingAnimation(typingTexts[(typingTexts.indexOf(text) + 1) % typingTexts.length]);
-						}, text.length * 200);
-						}
-
-						// Start the typing animation loop
-						playTypingAnimation(typingTexts[0]);
-
-						</script>
-
 						<br>
+						
+						<!-- Skills typing animation -->
+						<span id="skills-typing-animation"></span>
+
 						<br>
 			            <h2></h2>
 						<!-- <h2 class="d-flex" style="margin-bottom: 0">With over 5 years of experience</h2> -->
@@ -238,7 +223,44 @@
 		</div>
     </section>
 
+    <!-- Awards & Recognition - Scrolling Carousel -->
+    <section class="awards-carousel-section" id="awards-section">
+        <div class="container">
+            <div class="row justify-content-center pb-3">
+                <div class="col-md-10 heading-section text-center ftco-animate">
+                    <h2>Awards & Recognition</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Scrolling Container -->
+        <div class="awards-scroll-container">
+            <div class="awards-scroll-wrapper" id="awardsScrollWrapper">
+                <!-- Card 1: Business Extraordinaire Award -->
+                <div class="award-card">
+                    <div class="award-card-inner">
+                        <p class="award-title"><b style="color: var(--text-heading);">&quot;Business Extraordinaire&quot; Award</b></p>
+                        <img src="images/ExtraordinaireCertificate.png" class="img-fluid rounded award-image" alt="Business Extraordinaire Award">
+                    </div>
+                </div>
 
+                <!-- Card 2: Deloitte Appreciation -->
+                <div class="award-card">
+                    <div class="award-card-inner">
+                        <p class="award-title"><b style="color: var(--text-heading);">"The Hidden Gem"</b></p>
+                        <img src="images/DeloitteAppreciation.png" class="img-fluid rounded award-image" alt="Deloitte Appreciation">
+                    </div>
+                </div>
+
+                <!-- Card 3: Change & Innovation -->
+                <div class="award-card">
+                    <div class="award-card-inner">
+                        <p class="award-title"><b style="color: var(--text-heading);">"Change & Innovation"</b></p>
+                        <img src="images/ChangeAndInnovation.png" class="img-fluid rounded award-image" alt="Change and Innovation Award">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="ftco-about img ftco-section ftco-no-pb" id="about-section">
     	<div class="container">
@@ -254,13 +276,8 @@
 						<div class="img-about img d-flex align-items-stretch">
 							<div class="overlay">
 								<div class="row">
-									<div class="col-sm-6 col-md-5">
-									  <div class="about-img">
-										<img src="images/about-me.png" class="img-fluid rounded b-shadow-a" alt="">
-									  </div>
-									</div>
-									<!-- Details next to profile image -->
-									<div class="col-sm-6 col-md-7">
+									<!-- Details section (image removed) -->
+									<div class="col-sm-12">
 									  <div class="about-info">
 										<p><span class="title-s">Name: </span> <span>Karan Shah</span></p>
 										<p><span class="title-s">Job Role: </span> <span>Consultant</span></p>
@@ -390,22 +407,6 @@
 		</div>
 		<br>
 
-		<!-- Awards & Appreciation - Horizontal Layout -->
-		<div class="row mb-5">
-			<div class="col-md-6">
-				<div class="resume-wrap ftco-animate">
-					<p class="mb-3"><b style="color: var(--text-heading);">"Business Extraordinaire" Award</b></p>
-					<img src="images/ExtraordinaireCertificate.png" class="img-fluid rounded" alt="Business Extraordinaire Award Certificate">
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="resume-wrap ftco-animate">
-					<p class="mb-3"><b style="color: var(--text-heading);">Deloitte Appreciation</b></p>
-					<img src="images/DeloitteAppreciation.png" class="img-fluid rounded" alt="Deloitte Appreciation Certificate">
-				</div>
-			</div>
-		</div>
-
 		<!-- Timeline - Vertically Centered -->
 		<div class="row justify-content-center">
 			<div class="col-md-8">
@@ -452,8 +453,6 @@
 		</div>
 
     </section>
-
-   
 
     <section class="ftco-section" id="project-section">
       <div class="container">
@@ -551,7 +550,7 @@
         </div>
       </div>
 	
-	  <div class="ftco-section ftco-hireme img margin-top" style="background-image: url(images/FooterBanner.png)">
+	  <div class="ftco-section ftco-hireme margin-top">
 			<!-- <div class="container"> -->
 				<div class="row justify-content-center">
 					<div class="col-md-7 ftco-animate text-center">

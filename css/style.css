@@ -8480,8 +8480,8 @@ h1, h2, h3, h4, h5,
             bottom: 0;
             left: 0;
             right: 0;
-            background: #000000;
-            opacity: 0; }
+            background: var(--hero-overlay);
+            opacity: 1; }
           @media (max-width: 1199.98px) {
             .owl-carousel.home-slider .slider-item .slider-text .one-third {
               width: 85%; } }
@@ -8490,7 +8490,7 @@ h1, h2, h3, h4, h5,
               width: 100%;
               z-index: 0; }
               .owl-carousel.home-slider .slider-item .slider-text .one-third .overlay {
-                opacity: .3; }
+                opacity: 1; }
               .owl-carousel.home-slider .slider-item .slider-text .one-third:after {
                 opacity: 0; } }
         .owl-carousel.home-slider .slider-item .slider-text .one-forth {
@@ -8530,42 +8530,42 @@ h1, h2, h3, h4, h5,
                 padding-left: 45px;
                 padding-right: 3em; } }
         .owl-carousel.home-slider .slider-item .slider-text .subheading {
-          color: #000000;
+          color: var(--accent);
           font-weight: 600;
           font-size: 14px;
           letter-spacing: 3px;
-          text-transform: uppercase;
-          color: #ffbd39; }
+          text-transform: uppercase; }
         .owl-carousel.home-slider .slider-item .slider-text .text {
           position: relative;
           z-index: 1; }
         .owl-carousel.home-slider .slider-item .slider-text h1 {
           font-size: 60px;
-          color: #000000;
+          color: var(--text-heading);
           line-height: 1.2;
           font-weight: 800; }
           .owl-carousel.home-slider .slider-item .slider-text h1 span {
             font-weight: 800;
-            color: #ffbd39; }
+            color: var(--accent); }
           @media (max-width: 991.98px) {
             .owl-carousel.home-slider .slider-item .slider-text h1 {
-              color: #fff;
+              color: var(--text-heading);
               font-size: 50px; } }
           @media (max-width: 767.98px) {
             .owl-carousel.home-slider .slider-item .slider-text h1 {
               font-size: 40px; } }
         .owl-carousel.home-slider .slider-item .slider-text h2 {
           font-size: 30px;
-          font-weight: 400; }
+          font-weight: 400;
+          color: var(--text-primary); }
           @media (max-width: 991.98px) {
             .owl-carousel.home-slider .slider-item .slider-text h2 {
-              color: #fff; } }
+              color: var(--text-heading); } }
         .owl-carousel.home-slider .slider-item .slider-text p {
-          color: rgba(0, 0, 0, 0.8);
+          color: var(--text-primary);
           font-weight: 400; }
           @media (max-width: 991.98px) {
             .owl-carousel.home-slider .slider-item .slider-text p {
-              color: rgba(255, 255, 255, 0.7);
+              color: var(--text-heading);
               font-size: 23px; } }
         .owl-carousel.home-slider .slider-item .slider-text .btn-custom {
           bordeR: 1px solid #ffbd39;
@@ -8661,7 +8661,7 @@ h1, h2, h3, h4, h5,
 
 .slider-text h1 {
   font-size: 48px;
-  color: #000000;
+  color: var(--text-heading);
   line-height: 1.2;
   font-weight: 400; }
   @media (max-width: 991.98px) {
@@ -8672,11 +8672,11 @@ h1, h2, h3, h4, h5,
   font-size: 20px;
   line-height: 1.5;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.8); }
+  color: var(--text-primary); }
   .slider-text p strong {
     font-weight: 700; }
     .slider-text p strong a {
-      color: #000000; }
+      color: var(--text-heading); }
 
 .slider-text .breadcrumbs {
   font-size: 12px;
@@ -8687,19 +8687,19 @@ h1, h2, h3, h4, h5,
   letter-spacing: 2px;
   font-weight: 600; }
   .slider-text .breadcrumbs span {
-    color: rgba(255, 255, 255, 0.8); }
+    color: var(--text-primary); }
     .slider-text .breadcrumbs span i {
-      color: rgba(255, 255, 255, 0.8); }
+      color: var(--text-primary); }
     .slider-text .breadcrumbs span a {
-      color: rgba(255, 255, 255, 0.8); }
+      color: var(--text-primary); }
       .slider-text .breadcrumbs span a:hover, .slider-text .breadcrumbs span a:focus {
-        color: #ffbd39; }
+        color: var(--accent); }
         .slider-text .breadcrumbs span a:hover i, .slider-text .breadcrumbs span a:focus i {
-          color: #ffbd39; }
+          color: var(--accent); }
 
 .slider-text .bread {
   font-weight: 700;
-  color: #fff;
+  color: var(--text-heading);
   font-size: 7vw; }
 
 .bg-light {
